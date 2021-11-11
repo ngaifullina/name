@@ -2,11 +2,6 @@
   text-align: center;
 }
 
-.container {
-  width: 600px;
-  margin: 50px auto;
-}
-
 .App-header {
   min-height: 100vh;
   display: flex;

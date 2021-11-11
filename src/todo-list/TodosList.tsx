@@ -29,7 +29,7 @@ export function TodosList(props: { readonly?: boolean }) {
 
   const [showEdit, setShowEdit] = useState<boolean>(false);
   return (
-    <div>
+    <div className={styles.container}>
       <h1 className={styles.header}>Your Todos:</h1>
       {!!todosList.length && (
         <div className={styles.row}>

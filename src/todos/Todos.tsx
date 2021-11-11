@@ -19,20 +19,23 @@ export function Todos() {
   };
 
   return (
-    <div>
-      <input
-        className={styles.textbox}
-        aria-label="Set todo"
-        value={value}
-        onChange={handleInputChange}
-        placeholder="Write todo.."
-      />
+    <div className={styles.wrapper}>
       <div>
-        <button className={styles.button} onClick={submit}>
-          Add todo
-        </button>
+        <input
+          className={styles.textbox}
+          aria-label="Set todo"
+          value={value}
+          onChange={handleInputChange}
+          placeholder="Write todo.."
+        />
+        <div>
+          <button className={styles.button} onClick={submit}>
+            Add todo
+          </button>
+        </div>
+        <TodosList />
       </div>
-      <TodosList />
+
       <div>
         <button className={styles.button} onClick={() => history.push("/list")}>
           Show a list of todos
