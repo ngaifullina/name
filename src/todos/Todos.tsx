@@ -1,9 +1,12 @@
 import React from "react";
+import { useHistory } from "react-router-dom";
+
 import { useAppSelector, useAppDispatch } from "../app/hooks";
 import { addTodo, selectInputValue, editInputValue } from "./slice";
 import styles from "./Todos.module.css";
 import { TodosList } from "../todo-list/TodosList";
 export function Todos() {
+  const history = useHistory();
   const dispatch = useAppDispatch();
   const value = useAppSelector(selectInputValue);
 
@@ -30,6 +33,11 @@ export function Todos() {
         </button>
       </div>
       <TodosList />
+      <div>
+        <button className={styles.button} onClick={() => history.push("/list")}>
+          Show a list of todos
+        </button>
+      </div>
     </div>
   );
 }
