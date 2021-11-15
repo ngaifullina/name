@@ -2,32 +2,33 @@ import React from "react";
 import { useAppSelector, useAppDispatch } from "../app/hooks";
 import {
   selectTodos,
-  editTodo,
+  startEditingTodo,
+  finishEditingTodo,
+  cancelEditingTodo,
   deleteTodo,
-  selectInputValue,
-  editInputValue,
+  editEditingValue,
+  selectEditInputValue,
+  selectCurrentlyEditedTodo,
 } from "../todos/slice";
 import styles from "./TodosList.module.css";
 import { useState } from "react";
 export function TodosList(props: { readonly?: boolean }) {
   const todosList = useAppSelector(selectTodos);
   const dispatch = useAppDispatch();
-  const value = useAppSelector(selectInputValue);
-
+  const inputValue = useAppSelector(selectEditInputValue);
+  const showEdit = useAppSelector(selectCurrentlyEditedTodo);
   const handleDelete = (index: number) => {
     dispatch(deleteTodo(index));
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    dispatch(editInputValue(e.target.value));
+    dispatch(editEditingValue(e.target.value));
   };
 
-  const submit = (name: string) => {
-    dispatch(editTodo(name));
-    setShowEdit(false);
+  const submit = (index: number) => {
+    dispatch(finishEditingTodo(index));
   };
 
-  const [showEdit, setShowEdit] = useState<boolean>(false);
   return (
     <div className={styles.container}>
       <h1 className={styles.header}>Your Todos:</h1>
@@ -43,27 +44,26 @@ export function TodosList(props: { readonly?: boolean }) {
                     alt="edit"
                     className={styles.icon}
                     onClick={() => {
-                      setShowEdit(true);
-                      dispatch(editInputValue(todo.name));
+                      dispatch(startEditingTodo(i));
                     }}
                   />
                   <div
                     className={styles.close}
                     onClick={() => handleDelete(i)}
                   ></div>
-                  {showEdit && (
+                  {showEdit === i && (
                     <div>
                       <input
                         className={styles.textbox}
                         aria-label="Edit todo"
-                        value={value}
+                        value={inputValue}
                         onChange={handleInputChange}
                         placeholder="Edit todo.."
                       />
                       <div>
                         <button
                           className={styles.button}
-                          onClick={() => submit(todo.name)}
+                          onClick={() => submit(i)}
                         >
                           Edit todo
                         </button>
