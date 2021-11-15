@@ -14,8 +14,8 @@ export function TodosList(props: { readonly?: boolean }) {
   const dispatch = useAppDispatch();
   const value = useAppSelector(selectInputValue);
 
-  const handleDelete = (name: string) => {
-    dispatch(deleteTodo(name));
+  const handleDelete = (index: number) => {
+    dispatch(deleteTodo(index));
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -49,7 +49,7 @@ export function TodosList(props: { readonly?: boolean }) {
                   />
                   <div
                     className={styles.close}
-                    onClick={() => handleDelete(todo.name)}
+                    onClick={() => handleDelete(i)}
                   ></div>
                   {showEdit && (
                     <div>

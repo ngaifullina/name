@@ -8,11 +8,13 @@ export type Todo = {
 export type TodosState = {
   todos: Todo[];
   inputValue: string;
+  editInputValue: string;
 };
 
 const initialState: TodosState = {
   todos: [],
   inputValue: "",
+  editInputValue: "",
 };
 
 export const todosSlice = createSlice({
@@ -23,8 +25,10 @@ export const todosSlice = createSlice({
       state.todos.unshift({ name: state.inputValue });
       state.inputValue = "";
     },
-    deleteTodo: (state, action: PayloadAction<string>) => {
-      state.todos = state.todos.filter((todo) => todo.name !== action.payload);
+    deleteTodo: (state, action: PayloadAction<number>) => {
+      state.todos = state.todos
+        .slice(0, action.payload)
+        .concat(state.todos.slice(action.payload + 1));
     },
 
     editTodo: (state, action: PayloadAction<string>) => {
