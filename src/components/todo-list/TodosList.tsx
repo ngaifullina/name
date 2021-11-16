@@ -19,10 +19,6 @@ export function TodosList(props: { readonly?: boolean }) {
   const inputValue = useAppSelector(selectEditInputValue);
   const currentlyEditedTodo = useAppSelector(selectCurrentlyEditedTodo);
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    dispatch(editEditingValue(e.target.value));
-  };
-
   return (
     <div className={styles.container}>
       <h1 className={styles.header}>Your Todos:</h1>
@@ -32,13 +28,12 @@ export function TodosList(props: { readonly?: boolean }) {
             <Todo
               key={`${todo.name}_${i}`}
               name={todo.name}
-              underEdit={currentlyEditedTodo === i}
+              editValue={currentlyEditedTodo === i ? inputValue : null}
               onEditCancel={() => dispatch(cancelEditingTodo())}
               onDelete={() => dispatch(deleteTodo(i))}
-              onEdit={() => {}}
+              onEdit={(newValue) => dispatch(editEditingValue(newValue))}
               onEditFinish={() => dispatch(finishEditingTodo(i))}
               onEditStart={() => {
-                console.log("strts");
                 dispatch(startEditingTodo(i));
               }}
             />

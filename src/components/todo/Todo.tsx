@@ -3,7 +3,7 @@ import styles from "./Todo.module.css";
 
 export type Props = {
   name: string;
-  underEdit: boolean;
+  editValue: string | null;
   onDelete: () => void;
   onEdit: (newValue: string) => void;
   onEditStart: () => void;
@@ -13,7 +13,7 @@ export type Props = {
 
 export function Todo({
   name,
-  underEdit,
+  editValue,
   onDelete,
   onEdit,
   onEditCancel,
@@ -42,12 +42,12 @@ export function Todo({
         className={styles.delete}
         onClick={onDelete}
       />
-      {underEdit && (
+      {editValue && (
         <div className={styles.edit}>
           <input
             className={styles.textbox}
             aria-label="Edit todo"
-            value={name}
+            value={editValue}
             onChange={(e) => onEdit(e.target.value)}
             placeholder="Edit todo.."
           />
