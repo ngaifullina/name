@@ -13,14 +13,16 @@
   color: rgb(112, 76, 182);
 }
 
-.textbox {
+.input {
   position: absolute;
-  top: 4px;
-  margin-top: 10px;
+  border: none;
+  outline: none;
+  top: 15px;
+  left: 13px;
   height: 26px;
   font-size: 22px;
-  font-weight: 600;
 }
+
 .icongroup {
   display: block;
   float: right;

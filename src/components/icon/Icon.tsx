@@ -1,23 +1,12 @@
-import React from "react";
 import styles from "./Icon.module.css";
 
 export type Props = {
   type: "delete" | "edit" | "tick" | "cross";
-  handleClick: () => void;
+  onClick: () => void;
 };
 
-// all icons should
-// - have same size
-// - be inline-block
-// - same vertical alignment
-
-export function Icon({ type, handleClick }: Props) {
+export function Icon({ type, onClick }: Props) {
   return (
-    <img
-      src={`${type}.svg`}
-      alt=""
-      className={styles.icon}
-      onClick={handleClick}
-    />
+    <img src={`${type}.svg`} alt="" className={styles.icon} onClick={onClick} />
   );
 }

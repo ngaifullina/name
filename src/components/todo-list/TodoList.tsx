@@ -1,37 +1,32 @@
-import React from "react";
 import { useAppSelector, useAppDispatch } from "../../app/hooks";
 import {
-  selectTodos,
+  addTodo,
+  deleteTodo,
+  changeInputValue,
+  changeEditInputValue,
   startEditingTodo,
   finishEditingTodo,
   cancelEditingTodo,
-  deleteTodo,
-  editEditingValue,
+  selectTodos,
+  selectInputValue,
   selectEditInputValue,
   selectCurrentlyEditedTodo,
-  selectInputValue,
-  editInputValue,
-  addTodo,
 } from "./slice";
 import styles from "./TodoList.module.css";
 import { Todo } from "../todo/Todo";
 import { useEffect } from "react";
-export function TodoList({ readonly }: { readonly?: boolean }) {
-  const todosList = useAppSelector<{ name: string }[]>(selectTodos);
+
+export type Props = { readonly?: boolean };
+
+export function TodoList({ readonly }: Props) {
   const dispatch = useAppDispatch();
-  const inputValue = useAppSelector(selectEditInputValue);
+
+  const todos = useAppSelector<{ name: string }[]>(selectTodos);
+  const inputValue = useAppSelector(selectInputValue);
+  const editInputValue = useAppSelector(selectEditInputValue);
   const currentlyEditedTodo = useAppSelector(selectCurrentlyEditedTodo);
 
-  const value = useAppSelector(selectInputValue);
-
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    dispatch(editInputValue(e.target.value));
-  };
-
-  const submit = () => {
-    dispatch(addTodo());
-  };
-
+  // cancel editing whenever component becomes readonly
   useEffect(() => {
     if (readonly) {
       dispatch(cancelEditingTodo());
@@ -45,12 +40,15 @@ export function TodoList({ readonly }: { readonly?: boolean }) {
           <input
             className={styles.textbox}
             aria-label="Set todo"
-            value={value}
-            onChange={handleInputChange}
+            value={inputValue}
+            onChange={(e) => dispatch(changeInputValue(e.target.value))}
             placeholder="Write todo.."
           />
           <div>
-            <button className={styles.button} onClick={submit}>
+            <button
+              className={styles.button}
+              onClick={() => dispatch(addTodo())}
+            >
               Add todo
             </button>
           </div>
@@ -58,17 +56,18 @@ export function TodoList({ readonly }: { readonly?: boolean }) {
       )}
 
       <h1 className={styles.header}>Your Todos:</h1>
-      {!!todosList.length && (
+
+      {!!todos.length && (
         <div>
-          {todosList.map((todo, i) => (
+          {todos.map((todo, i) => (
             <Todo
-              readonly={readonly}
               key={`${todo.name}_${i}`}
+              readonly={readonly}
               name={todo.name}
-              editValue={currentlyEditedTodo === i ? inputValue : null}
+              editValue={currentlyEditedTodo === i ? editInputValue : null}
               onEditCancel={() => dispatch(cancelEditingTodo())}
               onDelete={() => dispatch(deleteTodo(i))}
-              onEdit={(newValue) => dispatch(editEditingValue(newValue))}
+              onEdit={(newValue) => dispatch(changeEditInputValue(newValue))}
               onEditFinish={() => dispatch(finishEditingTodo(i))}
               onEditStart={() => {
                 dispatch(startEditingTodo(i));

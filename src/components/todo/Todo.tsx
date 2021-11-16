@@ -1,9 +1,10 @@
 import styles from "./Todo.module.css";
 import { Icon } from "../icon/Icon";
+
 export type Props = {
+  readonly?: boolean;
   name: string;
   editValue: string | null;
-  readonly?: boolean;
   onDelete: () => void;
   onEdit: (newValue: string) => void;
   onEditStart: () => void;
@@ -24,29 +25,28 @@ export function Todo({
   return (
     <div className={styles.name}>
       <div className={styles.icongroup}>
-        {!readonly && editValue && (
-          <div>
-            <Icon type="tick" handleClick={onEditFinish} />
-            <Icon type="cross" handleClick={onEditCancel} />
-          </div>
+        {!readonly && editValue !== null && (
+          <span>
+            {/* disable tick on empty input */}
+            {editValue !== "" && <Icon type="tick" onClick={onEditFinish} />}
+            <Icon type="cross" onClick={onEditCancel} />
+          </span>
         )}
-        {!readonly && !editValue && (
-          <div>
-            <Icon type="edit" handleClick={onEditStart} />
-            <Icon type="delete" handleClick={onDelete} />
-          </div>
+        {!readonly && editValue === null && (
+          <span>
+            <Icon type="edit" onClick={onEditStart} />
+            <Icon type="delete" onClick={onDelete} />
+          </span>
         )}
       </div>
       {name}
 
-      {editValue && (
+      {editValue !== null && (
         <div className={styles.edit}>
           <input
-            className={styles.textbox}
-            aria-label="Edit todo"
+            className={styles.input}
             value={editValue}
             onChange={(e) => onEdit(e.target.value)}
-            placeholder="Edit todo.."
             autoFocus={true}
           />
         </div>

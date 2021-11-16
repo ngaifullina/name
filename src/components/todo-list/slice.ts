@@ -8,14 +8,14 @@ export type Todo = {
 export type TodosState = {
   todos: Todo[];
   inputValue: string;
-  editingValue: string;
+  editInputValue: string;
   currentlyEditedTodo: number | null;
 };
 
 const initialState: TodosState = {
   todos: [],
   inputValue: "",
-  editingValue: "",
+  editInputValue: "",
   currentlyEditedTodo: null,
 };
 
@@ -23,38 +23,41 @@ export const todosSlice = createSlice({
   name: "todos",
   initialState,
   reducers: {
+    changeInputValue: (state, action: PayloadAction<string>) => {
+      state.inputValue = action.payload;
+    },
     addTodo: (state) => {
-      state.todos.unshift({ name: state.inputValue });
-      state.inputValue = "";
+      if (state.inputValue !== "") {
+        state.todos.unshift({ name: state.inputValue });
+        state.inputValue = "";
+        cancelEditing(state);
+      }
     },
     deleteTodo: (state, action: PayloadAction<number>) => {
       state.todos = state.todos
         .slice(0, action.payload)
         .concat(state.todos.slice(action.payload + 1));
-    },
-
-    finishEditingTodo: (state, action: PayloadAction<number>) => {
-      state.todos[action.payload].name = state.editingValue;
-      state.editingValue = "";
-      state.currentlyEditedTodo = null;
+      cancelEditing(state);
     },
     startEditingTodo: (state, action: PayloadAction<number>) => {
       state.currentlyEditedTodo = action.payload;
-      state.editingValue = state.todos[action.payload].name;
+      state.editInputValue = state.todos[action.payload].name;
     },
-
-    cancelEditingTodo: (state) => {
-      state.currentlyEditedTodo = null;
-      state.editingValue = "";
+    finishEditingTodo: (state, action: PayloadAction<number>) => {
+      state.todos[action.payload].name = state.editInputValue;
+      cancelEditing(state);
     },
-    editInputValue: (state, action: PayloadAction<string>) => {
-      state.inputValue = action.payload;
-    },
-    editEditingValue: (state, action: PayloadAction<string>) => {
-      state.editingValue = action.payload;
+    cancelEditingTodo: cancelEditing,
+    changeEditInputValue: (state, action: PayloadAction<string>) => {
+      state.editInputValue = action.payload;
     },
   },
 });
+
+function cancelEditing(state: TodosState) {
+  state.currentlyEditedTodo = null;
+  state.editInputValue = "";
+}
 
 export const {
   addTodo,
@@ -62,14 +65,14 @@ export const {
   startEditingTodo,
   finishEditingTodo,
   cancelEditingTodo,
-  editInputValue,
-  editEditingValue,
+  changeInputValue,
+  changeEditInputValue,
 } = todosSlice.actions;
 
 export const selectTodos = (state: RootState) => state.todos.todos;
 export const selectInputValue = (state: RootState) => state.todos.inputValue;
 export const selectEditInputValue = (state: RootState) =>
-  state.todos.editingValue;
+  state.todos.editInputValue;
 export const selectCurrentlyEditedTodo = (state: RootState) =>
   state.todos.currentlyEditedTodo;
 
