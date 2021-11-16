@@ -4,7 +4,7 @@ import "./App.css";
 
 function App() {
   return (
-    <Router>
+    <Router basename="todos-editable">
       <div className="container">
         <nav>
           <ul>
