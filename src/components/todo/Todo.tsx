@@ -3,7 +3,7 @@ import { Icon } from "../icon/Icon";
 export type Props = {
   name: string;
   editValue: string | null;
-  readOnly?: boolean;
+  readonly?: boolean;
   onDelete: () => void;
   onEdit: (newValue: string) => void;
   onEditStart: () => void;
@@ -13,7 +13,7 @@ export type Props = {
 
 export function Todo({
   name,
-  readOnly,
+  readonly,
   editValue,
   onDelete,
   onEdit,
@@ -24,13 +24,13 @@ export function Todo({
   return (
     <div className={styles.name}>
       <div className={styles.icongroup}>
-        {!readOnly && editValue && (
+        {!readonly && editValue && (
           <div>
             <Icon type="tick" handleClick={onEditFinish} />
             <Icon type="cross" handleClick={onEditCancel} />
           </div>
         )}
-        {!readOnly && !editValue && (
+        {!readonly && !editValue && (
           <div>
             <Icon type="edit" handleClick={onEditStart} />
             <Icon type="delete" handleClick={onDelete} />

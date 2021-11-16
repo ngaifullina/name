@@ -1,25 +1,31 @@
-import { Switch, Route, BrowserRouter as Router } from "react-router-dom";
-
-import { Todos } from "./components/todos/Todos";
-import { TodosList } from "./components/todo-list/TodosList";
+import { Switch, Route, BrowserRouter as Router, Link } from "react-router-dom";
+import { TodoList } from "./components/todo-list/TodoList";
 import "./App.css";
 
 function App() {
   return (
-    <div className="container">
-      <Router>
+    <Router>
+      <div className="container">
+        <nav>
+          <ul>
+            <li>
+              <Link to="/">Home</Link>
+            </li>
+            <li>
+              <Link to="/view">View</Link>
+            </li>
+          </ul>
+        </nav>
         <Switch>
-          <Route path="/list">
-            <TodosList readOnly={true} />
+          <Route path="/view">
+            <TodoList readonly />
           </Route>
           <Route path="/">
-            <div className="container">
-              <Todos />
-            </div>
+            <TodoList />
           </Route>
         </Switch>
-      </Router>
-    </div>
+      </div>
+    </Router>
   );
 }
 

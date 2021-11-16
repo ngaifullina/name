@@ -1,8 +1,5 @@
-.wrapper {
-  display: flex;
-  justify-content: center;
-  flex-direction: row;
-  margin: 50px auto;
+.header {
+  color: rgb(112, 76, 182);
 }
 
 .button {
