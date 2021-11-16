@@ -2,11 +2,6 @@
   text-align: center;
 }
 
-.container {
-  width: 600px;
-  margin: 50px auto;
-}
-
 .App-header {
   min-height: 100vh;
   display: flex;
@@ -14,4 +9,7 @@
   align-items: center;
   justify-content: center;
   font-size: calc(10px + 2vmin);
+}
+.container {
+  margin: 50px;
 }
