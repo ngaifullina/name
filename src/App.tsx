@@ -10,10 +10,12 @@ function App() {
       <Router>
         <Switch>
           <Route path="/list">
-            <TodosList readonly={true} />
+            <TodosList readOnly={true} />
           </Route>
           <Route path="/">
-            <Todos />
+            <div className="container">
+              <Todos />
+            </div>
           </Route>
         </Switch>
       </Router>

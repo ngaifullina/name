@@ -1,9 +1,9 @@
-import React from "react";
 import styles from "./Todo.module.css";
-
+import { Icon } from "../icon/Icon";
 export type Props = {
   name: string;
   editValue: string | null;
+  readOnly?: boolean;
   onDelete: () => void;
   onEdit: (newValue: string) => void;
   onEditStart: () => void;
@@ -13,6 +13,7 @@ export type Props = {
 
 export function Todo({
   name,
+  readOnly,
   editValue,
   onDelete,
   onEdit,
@@ -22,26 +23,22 @@ export function Todo({
 }: Props) {
   return (
     <div className={styles.name}>
-      {/* <div className="icon-group">
-      {isEdited ? <Icon type="tick" /> : null }
-      <Icon type="cross" />
-      { <Icon type="edit" />
-      <Icon type="delete" />
-    </div> */}
+      <div className={styles.icongroup}>
+        {!readOnly && editValue && (
+          <div>
+            <Icon type="tick" handleClick={onEditFinish} />
+            <Icon type="cross" handleClick={onEditCancel} />
+          </div>
+        )}
+        {!readOnly && !editValue && (
+          <div>
+            <Icon type="edit" handleClick={onEditStart} />
+            <Icon type="delete" handleClick={onDelete} />
+          </div>
+        )}
+      </div>
       {name}
-      <img
-        src="edit.svg"
-        alt="edit"
-        className={styles.icon}
-        onClick={onEditStart}
-      />
 
-      <img
-        src="delete.svg"
-        alt="delete"
-        className={styles.delete}
-        onClick={onDelete}
-      />
       {editValue && (
         <div className={styles.edit}>
           <input
@@ -50,14 +47,8 @@ export function Todo({
             value={editValue}
             onChange={(e) => onEdit(e.target.value)}
             placeholder="Edit todo.."
+            autoFocus={true}
           />
-          <img
-            src="checked.svg"
-            alt="checked"
-            className={styles.checked}
-            onClick={onEditFinish}
-          />
-          <div className={styles.close} onClick={onEditCancel}></div>
         </div>
       )}
     </div>
