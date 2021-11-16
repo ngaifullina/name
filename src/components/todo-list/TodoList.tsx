@@ -15,8 +15,8 @@ import {
 } from "./slice";
 import styles from "./TodoList.module.css";
 import { Todo } from "../todo/Todo";
-
-export function TodoList(props: { readonly?: boolean }) {
+import { useEffect } from "react";
+export function TodoList({ readonly }: { readonly?: boolean }) {
   const todosList = useAppSelector<{ name: string }[]>(selectTodos);
   const dispatch = useAppDispatch();
   const inputValue = useAppSelector(selectEditInputValue);
@@ -32,9 +32,15 @@ export function TodoList(props: { readonly?: boolean }) {
     dispatch(addTodo());
   };
 
+  useEffect(() => {
+    if (readonly) {
+      dispatch(cancelEditingTodo());
+    }
+  }, [readonly, dispatch]);
+
   return (
     <div>
-      {!props.readonly && (
+      {!readonly && (
         <div>
           <input
             className={styles.textbox}
@@ -56,7 +62,7 @@ export function TodoList(props: { readonly?: boolean }) {
         <div>
           {todosList.map((todo, i) => (
             <Todo
-              readonly={props.readonly}
+              readonly={readonly}
               key={`${todo.name}_${i}`}
               name={todo.name}
               editValue={currentlyEditedTodo === i ? inputValue : null}
