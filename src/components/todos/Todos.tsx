@@ -1,7 +1,7 @@
 import React from "react";
 import { useHistory } from "react-router-dom";
 
-import { useAppSelector, useAppDispatch } from "../app/hooks";
+import { useAppSelector, useAppDispatch } from "../../app/hooks";
 import { addTodo, selectInputValue, editInputValue } from "./slice";
 import styles from "./Todos.module.css";
 import { TodosList } from "../todo-list/TodosList";

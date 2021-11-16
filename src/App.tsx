@@ -1,7 +1,7 @@
 import { Switch, Route, BrowserRouter as Router } from "react-router-dom";
 
-import { Todos } from "./todos/Todos";
-import { TodosList } from "./todo-list/TodosList";
+import { Todos } from "./components/todos/Todos";
+import { TodosList } from "./components/todo-list/TodosList";
 import "./App.css";
 
 function App() {
